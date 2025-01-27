@@ -1,0 +1,20 @@
+class Solution {
+    public List<List<String>> groupAnagrams(String[] strs) {
+
+    // empty hashmap to store anagram groups where the keys are the sorted strings, and values are lists of anagrams //
+        Map<String, List<String>> anagramGroups = new HashMap<>();
+
+        for(String s : strs) {
+        // turn each word into array of characters //
+            char[] chars = s.toCharArray();
+        // sort those characters alphabetically //
+            Arrays.sort(chars);
+        // save thost sorted characters as a new string //
+            String sortedString = new String(chars);
+        // if the anagram groups dont contain the sorted string as a key, put the sorted string as a key with a new empty array list as it's value // //
+            if (!anagramGroups.containsKey(sortedString)) {
+                anagramGroups.put(sortedString, new ArrayList<>());
+            }
+        // if it does contain the sorted string, retrieve the key (sorted string) and add the original word(s) as the value //
+            anagramGroups.get(sortedString).add(s);
+        }
