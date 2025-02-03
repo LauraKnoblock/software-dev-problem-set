@@ -1,0 +1,76 @@
+Problem:
+
+Determine if a 9 x 9 Sudoku board is valid. Only the filled cells need to be validated according to the following rules:
+
+Each row must contain the digits 1-9 without repetition.
+Each column must contain the digits 1-9 without repetition.
+Each of the nine 3 x 3 sub-boxes of the grid must contain the digits 1-9 without repetition.
+
+
+Solution:
+
+class Solution {
+    public boolean isValidSudoku(char[][] board) {
+
+        System.out.println("Checking Rows:");
+        for (int i = 0; i < 9; i++) {
+            System.out.print("Row " + i + ": ");
+            for (int j = 0; j < 9; j++) {
+                System.out.print(board[i][j] + " ");
+            }
+            System.out.println(); 
+            if (!isValidSet(board[i])) {
+                return false;
+            }
+        }
+
+        System.out.println("\nChecking Columns:");
+        for (int j = 0; j < 9; j++) {
+            char[] column = new char[9];
+            System.out.print("Column " + j + ": ");
+            for (int i = 0; i < 9; i++) {
+                column[i] = board[i][j];
+                System.out.print(column[i] + " ");
+            }
+            System.out.println();
+            if (!isValidSet(column)) {
+                return false;
+            }
+        }
+
+        System.out.println("\nChecking 3x3 Sub-boxes:");
+        for (int blockRow = 0; blockRow < 3; blockRow++) {
+            for (int blockCol = 0; blockCol < 3; blockCol++) {
+                char[] subBox = new char[9];
+                int index = 0;
+                System.out.print("Sub-box (" + blockRow + ", " + blockCol + "): ");
+
+                for (int i = blockRow * 3; i < (blockRow + 1) * 3; i++) {
+                    for (int j = blockCol * 3; j < (blockCol + 1) * 3; j++) {
+                        subBox[index++] = board[i][j];
+                        System.out.print(board[i][j] + " ");
+                    }
+                }
+                System.out.println();
+                if (!isValidSet(subBox)) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    private boolean isValidSet(char[] arr) {
+        Set<Character> seen = new HashSet<>();
+        for (char c : arr) {
+            if (c != '.') {
+                if (seen.contains(c)) {
+                    return false;
+                }
+                seen.add(c);
+            }
+        }
+        return true;
+    }
+}
